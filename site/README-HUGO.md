@@ -3,7 +3,7 @@
 To run this site in a Docker container, you can use `make serve-docs` from the root directory.
 
 # Dependencies for MacOS
-
+Testing the changes
 Install the following for an easy to use dev environment:
 
 * `brew install hugo`
@@ -15,7 +15,7 @@ If you are running a build on Ubuntu you will need the following packages:
 
 # Local Development
 1. Clone down your own fork, or clone the main repo `git clone https://github.com/vmware-tanzu/velero` and add your own remote.
-1. `cd velero/site`
+1. `cd velero/site`  
 1. Serve the site and watch for markup/sass changes `hugo serve`.
 1. View your website at http://127.0.0.1:1313/
 1. Commit any changes and push everything to your fork.
