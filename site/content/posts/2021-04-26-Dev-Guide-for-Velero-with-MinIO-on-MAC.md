@@ -9,11 +9,11 @@ categories: ['velero']
 # Tag should match author to drive author pages
 tags: ['Velero Team']
 ---
-One of the things that many find frustrating when contributing to a new project is, struggling to correctly build a development environment. With that in mind, here's a handy guide, which walks through the required tools and configurations that are needed to build developer's environment for Velero with MinIO on MAC OS.  
+One of the things that many find frustrating when contributing to a new project is, correctly building a development environment. With that in mind, here's a handy guide, which walks through the required tools and configurations that are needed to build developer's environment for Velero with MinIO on MAC OS.  
 
 **Note:** The following are suggested tools and can be replaced per your needs.
 
-### Prerequisite tools
+### Prerequisite tools:  
 - Docker Desktop
 - A DockerHub account
 - kubectl
@@ -25,11 +25,10 @@ One of the things that many find frustrating when contributing to a new project 
 ## Installing Prerequisite Tools
 Follow the below instructions to install the prerequisite tools.
 
-### Configure Docker Desktop
-Refer to the official Docker documentation page to install Docker Desktop:  
+### 1. Configure Docker Desktop
+Refer to the following official Docker documentation page to install Docker Desktop:  
 https://docs.docker.com/docker-for-mac/install/
-
-- Verify Docker is installed correctly by checking Docker version
+- Verify Docker is installed correctly by checking Docker version:  
     ```bash
     $ docker --version
     Docker version 19.03.12, build 48a66213fe
@@ -38,23 +37,23 @@ https://docs.docker.com/docker-for-mac/install/
 - Enable experimental features on Docker, as this is required to build a Velero container image later.
     - Go into "Preferences-> Command Line" and Enable Experimental features.
 
-  ![enabledockerexperimentalfeature](/img/posts/enabledockerexperimentalfeature.png)  
+  ![enabledockerexperimentalfeature](/img/posts/enabledockerexperimentalfeature.png)   
     - Select "Apply & Restart" docker  
 
-### Configure Dockerhub image registry account
+### 2. Configure Dockerhub image registry account  
 - Create a Dockerhub account by following:  
   https://docs.docker.com/docker-hub/#step-1-sign-up-for-a-docker-account
 
-- After successful account creation of the Docker hub account, login from the terminal by running.
+- After successful account creation of the Docker hub account, login from the terminal.
     ```bash
     $ docker login
     Authenticating with existing credentials...
     Login Succeeded
     ```  
   
-### Install kubectl
+### 3. Install kubectl
 - Refer to the below page to install the kubectl command-line utility:  
-  https://kubernetes.io/docs/tasks/tools/install-kubectl-macos
+  https://kubernetes.io/docs/tasks/tools/install-kubectl-macos  
 
 - Verify `kubectl` is installed correctly by checking `kubectl` version:
     ```bash
@@ -62,11 +61,11 @@ https://docs.docker.com/docker-for-mac/install/
     Client Version: v1.18.2
     ```  
   
-### Install MinIO as an Object storage service.
-MinIO using a local directory can be used as an object storage for Velero backup and restore.  
-More information on MinIO can be found at https://min.io/
+### 4. Install MinIO as an Object storage service.
+  MinIO using a local directory can be used as an object storage for Velero backup and restore.  
+  More information on MinIO can be found at https://min.io/
 
-- Install MinIO using brew
+- Install MinIO using brew:
     ```bash
     $ brew install minio/stable/minio
     ==> Tapping minio/stable
@@ -79,7 +78,7 @@ More information on MinIO can be found at https://min.io/
     (......)
     ```
 
-- Create a directory, which will be used as persistent Storage for MinIO
+- Create a directory, which will be used as persistent Storage for MinIO:
     ```bash
     $ cd ~
     $ mkdir velero-storage
@@ -87,7 +86,7 @@ More information on MinIO can be found at https://min.io/
     velero-storage
     ```
 
-- Start the MinIO Server by setting the environment variables
+- Start the MinIO Server by setting the environment variables:
     ```bash
     $ export MINIO_ACCESS_KEY=minio
     $ export MINIO_SECRET_KEY=miniostorage
@@ -103,7 +102,7 @@ More information on MinIO can be found at https://min.io/
 - Login to the MinIO UI, by using the endpoint URL, rootuser(access key), and rootpass(secret key)(These details are logged on to the console by the previous command)
   ![miniologinpage](/img/posts/miniologinpage.png)  
   
-- Install the MinIO command line client
+- Install the MinIO's command line client
     ```bash
     $ brew install minio/stable/mc
     ==> Installing mc from minio/stable
@@ -112,19 +111,19 @@ More information on MinIO can be found at https://min.io/
     /usr/local/Cellar/mc/RELEASE.2021-03-23T05-46-11Z_1: 3 files, 21.2MB, built in 9 seconds
     ```
 
-- Add MinIO's `rootuser` and `rootpass` values to the client alias for convenience
+- Add MinIO's `rootuser` and `rootpass` values to the client alias for convenience  
     ```bash
     $ mc alias set myminio http://localhost:9000 minio miniostorage
     Added `myminio` successfully
     ```
 
-- Create a new storage bucket on MinIO Storage.
+- Create a new storage bucket on MinIO's Storage.
     ```bash
     $ mc mb myminio/velerobackup
     Bucket created successfully `myminio/velerobackup`.
     ```
 
-- Create a MinIO credentials file:
+- Create a MinIO's credentials file:
     ```bash
     $ cat ~/.credentials-minio
     [default]
@@ -132,7 +131,7 @@ More information on MinIO can be found at https://min.io/
     aws_secret_access_key = miniostorage
     ```
 
-- Set the following MinIO objects as environment variables
+- Set the following MinIO's objects as environment variables
     ```bash
     $ export BUCKET=velerobackup
     $ export REGION=minio,s3ForcePathStyle="true",s3Url=http://192.168.29.155:9000
@@ -140,7 +139,7 @@ More information on MinIO can be found at https://min.io/
     $ export IMAGE=velero/velero:latest
     ```
 
-### Install the Velero Client
+### 5. Install the Velero Client
 - Install Velero by following the instructions at     
   https://velero.io/docs/v1.6/basic-install/#option-2-github-release
 
@@ -152,7 +151,7 @@ More information on MinIO can be found at https://min.io/
       Git commit: 87d86a45a6ca66c6c942c7c7f08352e26809426c
   ``` 
 
-### Install KinD (Kubernetes in Docker) and create a Kind cluster
+### 6. Install KinD (Kubernetes in Docker) and create a Kind cluster
 - More information on `kind` can be found at https://kind.sigs.Kubernetes.io/
 
 - Install kind using brew
@@ -196,20 +195,20 @@ More information on MinIO can be found at https://min.io/
   kind
   ```
 
-### Create Sample Kubernetes Objects that Velero will Back up and Restore for test
-- Create a Kubernetes namespace
+### 7. Create Sample Kubernetes Objects that Velero will Back up and Restore for test
+- Create a Kubernetes namespace.
   ```bash
   $ kubectl create namespace dev
   namespace/dev created
   ```
 
-- Create a Kubernetes deployment for `nginx` pods
+- Create a Kubernetes deployment for `nginx` pods.
   ```bash
   $ kubectl create  deployment nginx  --image=nginx --namespace dev
   deployment.apps/nginx created
   ```  
 
-- Ensure the deployment is created and is running
+- Ensure the deployment is created and is running.
   ```bash
   $ kubectl get all -n dev
   NAME                         READY   STATUS    RESTARTS   AGE
@@ -226,7 +225,7 @@ More information on MinIO can be found at https://min.io/
 
 ### Test Kubernetes Cluster Backup and Restore using Velero
 
-#### 1. Install the Velero backup controller in the cluster
+### 1. Install the Velero backup controller in the cluster:
 - Run the Velero install command
   ```bash
   $ velero install --provider aws \
@@ -257,7 +256,7 @@ More information on MinIO can be found at https://min.io/
   replicaset.apps/velero-8d7c7b978   1         1         1       4m40s
   ```
 
-#### 2. Back up Kubernetes Clusters on an object storage service using Velero
+### 2. Back up Kubernetes Clusters on MinIO using Velero
 
 - Start the Kubernetes cluster backup using Velero. Velero will save the backup file on the installed object storage service.
   ```bash
@@ -271,7 +270,7 @@ More information on MinIO can be found at https://min.io/
 
 - Confirm backup is available by logging into  MinIO UI.  
 
-#### 3. Delete Kubernetes Cluster
+### 3. Delete Kubernetes Cluster
 - Delete the Kubernetes cluster created earlier
   ```bash
   $ kind delete cluster --name=dev-cluster
@@ -284,9 +283,9 @@ More information on MinIO can be found at https://min.io/
   kind
   ```
 
-The Kubernetes cluster with name `dev-cluster` is not available.
+The Kubernetes cluster with name `dev-cluster` will be deleted.
 
-#### 4. Restore cluster from the Velero Backup stored in MinIO storage
+### 4. Restore cluster from the Velero Backup stored in MinIO storage
 - Create an empty Kubernetes cluster with the name `dev-cluster`.
   ```bash
   $ kind create cluster --name=dev-cluster
@@ -357,7 +356,7 @@ The Kubernetes cluster with name `dev-cluster` is not available.
   replicaset.apps/nginx-6799fc88d8   1         1         1       2m28s
   ```
 
-### Now, Let's GO Dig into the Development
+## Now, Let's GO Dig into the Development
 - Install Go following the instructions at  https://golang.org/doc/install
 
 - Clone the Velero source code
@@ -393,11 +392,9 @@ The Kubernetes cluster with name `dev-cluster` is not available.
     OUTPUT_DIR=$(pwd)/_output/bin/darwin/amd64 \
     ./hack/build.sh
   ```
-  This command creates a Velero executable in VELERO_ROOT/_output/bin/darwin/amd64/
-
+  This command creates a Velero executable in the directory, **VELERO_ROOT/_output/bin/darwin/amd64/**
 
 - Test Velero changes with the following steps.
-
   - Replace the default `velero` executable, with a newly build executable
     ```bash
     $ mv ~/go/src/github.com/vmware-tanzu/velero/_output/bin/darwin/amd64/velero /usr/local/bin/velero
@@ -413,8 +410,8 @@ The Kubernetes cluster with name `dev-cluster` is not available.
     Version: v1.5.4
     ```
 
-### Test the Changes
-#### 1. Build a `velero` Docker container image with the changes
+## Test the Changes
+### 1. Build a `velero` Docker container image with the changes
 
 - Build `velero` Docker container image
   ```bash
@@ -436,7 +433,7 @@ The Kubernetes cluster with name `dev-cluster` is not available.
   velero/velero       main                8bdafe535938        13 minutes ago      168MB
   ```
 
-#### 2. Push the new `velero` image to your DockerHub registry
+### 2. Push the new `velero` image to your DockerHub registry
 - Go into DockerHub and create a repository for the image
   ![createrepoindockerhub](/img/posts/createrepoindockerhub.png)
 
@@ -459,7 +456,7 @@ The Kubernetes cluster with name `dev-cluster` is not available.
 - Go into DockerHub and check that the tag has been pushed  
   ![imageindockerhub](/img/posts/imageindockerhub.png)
 
-#### 3. Run the `velero` install using the latest `velero` image
+### 3. Run the `velero` install using the latest `velero` image
 - Install the latest `velero` on the cluster
   ```bash
   $ export VERSION=v1
