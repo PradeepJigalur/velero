@@ -38,7 +38,7 @@ https://docs.docker.com/docker-for-mac/install/
 - Enable experimental features on Docker, as this is required to build a Velero container image later.
     - Go into "Preferences-> Command Line" and Enable Experimental features.
 
-  ![enabledockerexperimentalfeature](img/posts/enabledockerexperimentalfeature.png)  
+  ![enabledockerexperimentalfeature](/img/posts/enabledockerexperimentalfeature.png)  
     - Select "Apply & Restart" docker  
 
 ### Configure Dockerhub image registry account
@@ -101,7 +101,7 @@ More information on MinIO can be found at https://min.io/
     ```
 
 - Login to the MinIO UI, by using the endpoint URL, rootuser(access key), and rootpass(secret key)(These details are logged on to the console by the previous command)
-  ![miniologinpage](img/posts/miniologinpage.png)  
+  ![miniologinpage](/img/posts/miniologinpage.png)  
   
 - Install the MinIO command line client
     ```bash
@@ -438,7 +438,7 @@ The Kubernetes cluster with name `dev-cluster` is not available.
 
 #### 2. Push the new `velero` image to your DockerHub registry
 - Go into DockerHub and create a repository for the image
-  ![createrepoindockerhub](img/posts/createrepoindockerhub.png)
+  ![createrepoindockerhub](/img/posts/createrepoindockerhub.png)
 
 - Create a tag for the image
   ```bash
@@ -457,7 +457,7 @@ The Kubernetes cluster with name `dev-cluster` is not available.
   ```
 
 - Go into DockerHub and check that the tag has been pushed  
-  ![imageindockerhub](images/dev-guide-images/imageindockerhub.png)
+  ![imageindockerhub](/img/posts/imageindockerhub.png)
 
 #### 3. Run the `velero` install using the latest `velero` image
 - Install the latest `velero` on the cluster
