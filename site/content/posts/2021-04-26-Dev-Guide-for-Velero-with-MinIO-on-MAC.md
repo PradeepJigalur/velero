@@ -13,7 +13,7 @@ One of the things that many find frustrating when contributing to a new project 
 
 **Note:** The following are suggested tools and can be replaced per your needs.
 
-### Prerequisite tools:  
+### Prerequisite tools:
 - Docker Desktop
 - A DockerHub account
 - kubectl
@@ -26,16 +26,16 @@ One of the things that many find frustrating when contributing to a new project 
 Follow the below instructions to install the prerequisite tools.
 
 ### 1. Configure Docker Desktop
-Refer to the following official Docker documentation page to install Docker Desktop:  
+Refer to the following official Docker documentation page to install Docker Desktop  
 https://docs.docker.com/docker-for-mac/install/
-- Verify Docker is installed correctly by checking Docker version:  
+- Verify Docker is installed correctly by checking Docker version:    
     ```bash
     $ docker --version
     Docker version 19.03.12, build 48a66213fe
     ```
 
-- Enable experimental features on Docker, as this is required to build a Velero container image later.
-    - Go into "Preferences-> Command Line" and Enable Experimental features.
+- Enable experimental features on Docker, as this is required to build a Velero container image later 
+    - Go into "Preferences-> Command Line" and Enable Experimental features
 
   ![enabledockerexperimentalfeature](/img/posts/enabledockerexperimentalfeature.png)   
     - Select "Apply & Restart" docker  
@@ -44,7 +44,7 @@ https://docs.docker.com/docker-for-mac/install/
 - Create a Dockerhub account by following:  
   https://docs.docker.com/docker-hub/#step-1-sign-up-for-a-docker-account
 
-- After successful account creation of the Docker hub account, login from the terminal.
+- After successful account creation, login from the terminal  
     ```bash
     $ docker login
     Authenticating with existing credentials...
@@ -52,20 +52,20 @@ https://docs.docker.com/docker-for-mac/install/
     ```  
   
 ### 3. Install kubectl
-- Refer to the below page to install the kubectl command-line utility:  
+- Refer to the below page to install the kubectl command-line utility   
   https://kubernetes.io/docs/tasks/tools/install-kubectl-macos  
 
-- Verify `kubectl` is installed correctly by checking `kubectl` version:
+- Verify `kubectl` is installed correctly by checking `kubectl` version 
     ```bash
     $ kubectl version --client --short
     Client Version: v1.18.2
     ```  
   
-### 4. Install MinIO as an Object storage service.
-  MinIO using a local directory can be used as an object storage for Velero backup and restore.  
+### 4. Install MinIO as an Object storage service
+  MinIO using a local directory can be used as an object storage for Velero backup and restore  
   More information on MinIO can be found at https://min.io/
 
-- Install MinIO using brew:
+- Install MinIO using brew  
     ```bash
     $ brew install minio/stable/minio
     ==> Tapping minio/stable
@@ -78,7 +78,7 @@ https://docs.docker.com/docker-for-mac/install/
     (......)
     ```
 
-- Create a directory, which will be used as persistent Storage for MinIO:
+- Create a directory, which will be used as persistent Storage for MinIO  
     ```bash
     $ cd ~
     $ mkdir velero-storage
@@ -86,7 +86,7 @@ https://docs.docker.com/docker-for-mac/install/
     velero-storage
     ```
 
-- Start the MinIO Server by setting the environment variables:
+- Start the MinIO Server by setting the environment variables  
     ```bash
     $ export MINIO_ACCESS_KEY=minio
     $ export MINIO_SECRET_KEY=miniostorage
@@ -99,7 +99,7 @@ https://docs.docker.com/docker-for-mac/install/
     IAM initialization complete
     ```
 
-- Login to the MinIO UI, by using the endpoint URL, rootuser(access key), and rootpass(secret key)(These details are logged on to the console by the previous command)
+- Login to the MinIO UI, by using the endpoint URL, rootuser(access key), and rootpass(secret key)(These details are logged on to the console by the previous command)  
   ![miniologinpage](/img/posts/miniologinpage.png)  
   
 - Install the MinIO command line client
@@ -111,19 +111,19 @@ https://docs.docker.com/docker-for-mac/install/
     /usr/local/Cellar/mc/RELEASE.2021-03-23T05-46-11Z_1: 3 files, 21.2MB, built in 9 seconds
     ```
 
-- Add MinIO `rootuser` and `rootpass` values to the client alias for convenience  
+- Add MinIO `rootuser` and `rootpass` values to the client alias for convenience    
     ```bash
     $ mc alias set myminio http://localhost:9000 minio miniostorage
     Added `myminio` successfully
     ```
 
-- Create a new storage bucket on MinIO Storage.
+- Create a new storage bucket on MinIO Storage  
     ```bash
     $ mc mb myminio/velerobackup
     Bucket created successfully `myminio/velerobackup`.
     ```
 
-- Create a MinIO credentials file:
+- Create a MinIO credentials file  
     ```bash
     $ cat ~/.credentials-minio
     [default]
@@ -140,10 +140,10 @@ https://docs.docker.com/docker-for-mac/install/
     ```
 
 ### 5. Install the Velero Client
-- Install Velero by following the instructions at:      
+- Install Velero by following the instructions at  
   https://velero.io/docs/v1.6/basic-install/#option-2-github-release
 
-- Ensure Velero is installed properly by running the below command:
+- Ensure Velero is installed properly by running the below command  
   ```bash
   $ velero version --client-only
   Client:
@@ -154,7 +154,7 @@ https://docs.docker.com/docker-for-mac/install/
 ### 6. Install KinD (Kubernetes in Docker) and create a Kind cluster
 - More information on `kind` can be found at https://kind.sigs.Kubernetes.io/
 
-- Install kind using brew
+- Install kind using brew  
   ```bash
   $ brew install kind
   ==> Downloading https://ghcr.io/v2/homebrew/core/kind/manifests/0.10.0
@@ -164,13 +164,13 @@ https://docs.docker.com/docker-for-mac/install/
   Removing: ~/Library/Caches/Homebrew/kind--... (4.7MB)
   ```
   
-- Ensure `kind` is installed properly by running the below command:
+- Ensure `kind` is installed properly by running the below command  
   ```bash
   $ kind version
   kind v0.10.0 go1.15.7 darwin/amd64
   ```
 
-- Create a Kubernetes cluster using Kind.
+- Create a Kubernetes cluster using Kind  
   ```bash
   $ kind create cluster --name=dev-cluster
   Creating cluster "dev-cluster" ...
@@ -188,7 +188,7 @@ https://docs.docker.com/docker-for-mac/install/
   Thanks for using kind!
   ```
 
-- Make sure the cluster exists
+- Make sure the cluster exists  
   ```bash
   $ kind get clusters
   dev-cluster
@@ -196,19 +196,19 @@ https://docs.docker.com/docker-for-mac/install/
   ```
 
 ### 7. Create Sample Kubernetes Objects that Velero will Back up and Restore for test
-- Create a Kubernetes namespace.
+- Create a Kubernetes namespace  
   ```bash
   $ kubectl create namespace dev
   namespace/dev created
   ```
 
-- Create a Kubernetes deployment for `nginx` pods.
+- Create a Kubernetes deployment for `nginx` pods  
   ```bash
   $ kubectl create  deployment nginx  --image=nginx --namespace dev
   deployment.apps/nginx created
   ```  
 
-- Ensure the deployment is created and is running.
+- Ensure the deployment is created and is running  
   ```bash
   $ kubectl get all -n dev
   NAME                         READY   STATUS    RESTARTS   AGE
@@ -221,12 +221,12 @@ https://docs.docker.com/docker-for-mac/install/
   replicaset.apps/nginx-6799fc88d8   1         1         1       4m9s
   ```
 
-## Let's get started with Velero
+## Let's get started with Velero  
 
-### Test Kubernetes Cluster Backup and Restore using Velero
+### Test Kubernetes Cluster Backup and Restore using Velero  
 
-### 1. Install the Velero backup controller in the cluster:
-- Run the Velero install command
+### 1. Install the Velero backup controller in the cluster  
+- Run the Velero install command  
   ```bash
   $ velero install --provider aws \
   --plugins velero/velero-plugin-for-aws:v1.0.0 \
@@ -243,9 +243,9 @@ https://docs.docker.com/docker-for-mac/install/
   Velero is installed! Use 'kubectl logs deployment/velero -n velero' to view the status.
   ```
 
-- Ensure `velero` deployment is running inside the `velero` namespace
+- Ensure `velero` deployment is running inside the `velero` namespace  
   ```bash
-  $ kubectl get all -n velero
+  $ kubectl get all -n velero  
   NAME                         READY   STATUS    RESTARTS   AGE
   pod/velero-8d7c7b978-8ldrt   1/1     Running   0          4m40s
 
@@ -258,7 +258,7 @@ https://docs.docker.com/docker-for-mac/install/
 
 ### 2. Back up Kubernetes Clusters on MinIO using Velero
 
-- Start the Kubernetes cluster backup using Velero. Velero will save the backup file on the installed object storage service.
+- Start the Kubernetes cluster backup using Velero. Velero will save the backup file on the installed object storage service
   ```bash
   $ velero backup create backup1 --wait
   Backup request "backup1" submitted successfully.
@@ -268,16 +268,16 @@ https://docs.docker.com/docker-for-mac/install/
   You may check for more information using the commands `velero backup describe backup1` and `velero backup logs backup1`.
   ```
 
-- Confirm backup is available by logging into  MinIO UI.  
+- Confirm backup is available by logging into  MinIO UI    
 
 ### 3. Delete Kubernetes Cluster
-- Delete the Kubernetes cluster created earlier
+- Delete the Kubernetes cluster created earlier  
   ```bash
   $ kind delete cluster --name=dev-cluster
   Deleting cluster "dev-cluster" ...
   ```
 
-- Ensure cluster is deleted
+- Ensure cluster is deleted  
   ```bash
   $ kind get clusters
   kind
@@ -286,7 +286,7 @@ https://docs.docker.com/docker-for-mac/install/
 The Kubernetes cluster with name `dev-cluster` will be deleted.
 
 ### 4. Restore cluster from the Velero Backup stored in MinIO storage
-- Create an empty Kubernetes cluster with the name `dev-cluster`.
+- Create an empty Kubernetes cluster with the name `dev-cluster`  
   ```bash
   $ kind create cluster --name=dev-cluster
   Creating cluster "dev-cluster" ...
@@ -304,7 +304,7 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   Have a nice day!
   ```
 
-- Run the Velero install command
+- Run the Velero install command  
   ```bash
   $ velero install --provider aws \
   --plugins velero/velero-plugin-for-aws:v1.0.0 \
@@ -320,7 +320,7 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   Velero is installed!  Use 'kubectl logs deployment/velero -n velero' to view the status.
   ```
 
-- Ensure `velero` deployment is running inside the `velero` namespace
+- Ensure `velero` deployment is running inside the `velero` namespace  
   ```bash
   $ kubectl get all -n velero
   NAME                         READY   STATUS    RESTARTS   AGE
@@ -333,7 +333,7 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   replicaset.apps/velero-8d7c7b978   1         1         1       2m
   ```
 
-- Restore the cluster from backup `backup1`
+- Restore the cluster from backup `backup1`  
   ```bash
   $ velero restore create restore1 --from-backup backup1 --wait
   Restore request "restore1" submitted successfully.
@@ -343,7 +343,7 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   You may check for more information using the commands `velero restore describe restore1` and `velero restore logs restore1`.
   ```
 
-- Ensure all Kubernetes objects are created and are running
+- Ensure all Kubernetes objects are created and are running  
   ```bash
   $ kubectl get all -n dev
   NAME                         READY   STATUS    RESTARTS   AGE
@@ -356,10 +356,10 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   replicaset.apps/nginx-6799fc88d8   1         1         1       2m28s
   ```
 
-## Now, Let's GO Dig into the Development
+## Now, Let's GO Dig into the Development  
 - Install Go following the instructions at  https://golang.org/doc/install
 
-- Clone the Velero source code
+- Clone the Velero source code  
   ```bash
   $ mkdir -p ~/go/src/github.com/vmware-tanzu/
   $ cd ~/go/src/github.com/vmware-tanzu/
@@ -374,10 +374,9 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   Updating files: 100% (2069/2069), done.
   ```
 
-- Perform changes on the Velero source code
+- Perform changes on the Velero source code  
 
-
-- Compile and build the Velero binary
+- Compile and build the Velero binary  
   ```bash
   $ cd velero
   $ make local
@@ -394,12 +393,12 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   ```
   This command creates a Velero executable in the directory, **VELERO_ROOT/_output/bin/darwin/amd64/**
 
-- Test Velero changes with the following steps.
-  - Replace the default `velero` executable, with a newly build executable
+- Test Velero changes with the following steps  
+  - Replace the default `velero` executable, with a newly build executable  
     ```bash
     $ mv ~/go/src/github.com/vmware-tanzu/velero/_output/bin/darwin/amd64/velero /usr/local/bin/velero
-    ```
-
+    ```  
+    
   - Run Velero executable
     ```bash
     $ velero version
@@ -434,15 +433,15 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   ```
 
 ### 2. Push the new `velero` image to your DockerHub registry
-- Go into DockerHub and create a repository for the image
+- Go into DockerHub and create a repository for the image  
   ![createrepoindockerhub](/img/posts/createrepoindockerhub.png)
 
-- Create a tag for the image
+- Create a tag for the image  
   ```bash
   $ docker tag COMMIT_ID DOCUKERHUB_ID/velero:v1
   ```
 
-- Push the image to the DockerHub
+- Push the image to the DockerHub  
   ```bash
   $ docker push DockerHubId/velero
   The push refers to repository [docker.io/DockerHubId/velero]
@@ -456,8 +455,8 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
 - Go into DockerHub and check that the tag has been pushed  
   ![imageindockerhub](/img/posts/imageindockerhub.png)
 
-### 3. Run the `velero` install using the latest `velero` image which has your changes.
-- Install the latest `velero` on the cluster
+### 3. Run the `velero` install using the latest `velero` image which has your changes  
+- Install the latest `velero` on the cluster  
   ```bash
   $ export VERSION=v1
   $ export IMAGE=hub.docker.com/DockerHubId/velero:$VERSION
