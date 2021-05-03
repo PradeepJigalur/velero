@@ -1,5 +1,5 @@
 ---
-title: Developer's Guide for Velero with Minio. (MacOS Version)
+title: Developer's Guide for Velero with MinIO. (MacOS Version)
 slug: Dev-Guide-for-Velero-with-MinIO-on-MAC
 # image: https://placehold.it/200x200
 excerpt: One of the things that many find frustrating when contributing to a new project is, struggling to correctly build a development environment. With that in mind, here's a handy guide, which walks through the required tools and configurations that are needed to build Developer's environment for Velero with MinIO on MAC OS.
@@ -102,7 +102,7 @@ https://docs.docker.com/docker-for-mac/install/
 - Login to the MinIO UI, by using the endpoint URL, rootuser(access key), and rootpass(secret key)(These details are logged on to the console by the previous command)
   ![miniologinpage](/img/posts/miniologinpage.png)  
   
-- Install the MinIO's command line client
+- Install the MinIO command line client
     ```bash
     $ brew install minio/stable/mc
     ==> Installing mc from minio/stable
@@ -111,19 +111,19 @@ https://docs.docker.com/docker-for-mac/install/
     /usr/local/Cellar/mc/RELEASE.2021-03-23T05-46-11Z_1: 3 files, 21.2MB, built in 9 seconds
     ```
 
-- Add MinIO's `rootuser` and `rootpass` values to the client alias for convenience  
+- Add MinIO `rootuser` and `rootpass` values to the client alias for convenience  
     ```bash
     $ mc alias set myminio http://localhost:9000 minio miniostorage
     Added `myminio` successfully
     ```
 
-- Create a new storage bucket on MinIO's Storage.
+- Create a new storage bucket on MinIO Storage.
     ```bash
     $ mc mb myminio/velerobackup
     Bucket created successfully `myminio/velerobackup`.
     ```
 
-- Create a MinIO's credentials file:
+- Create a MinIO credentials file:
     ```bash
     $ cat ~/.credentials-minio
     [default]
@@ -131,7 +131,7 @@ https://docs.docker.com/docker-for-mac/install/
     aws_secret_access_key = miniostorage
     ```
 
-- Set the following MinIO's objects as environment variables
+- Set the following MinIO objects as environment variables
     ```bash
     $ export BUCKET=velerobackup
     $ export REGION=minio,s3ForcePathStyle="true",s3Url=http://192.168.29.155:9000
@@ -140,7 +140,7 @@ https://docs.docker.com/docker-for-mac/install/
     ```
 
 ### 5. Install the Velero Client
-- Install Velero by following the instructions at     
+- Install Velero by following the instructions at:      
   https://velero.io/docs/v1.6/basic-install/#option-2-github-release
 
 - Ensure Velero is installed properly by running the below command:
@@ -456,7 +456,7 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
 - Go into DockerHub and check that the tag has been pushed  
   ![imageindockerhub](/img/posts/imageindockerhub.png)
 
-### 3. Run the `velero` install using the latest `velero` image
+### 3. Run the `velero` install using the latest `velero` image which has your changes.
 - Install the latest `velero` on the cluster
   ```bash
   $ export VERSION=v1
@@ -468,3 +468,5 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   --secret-file $SECRETFILE \
   --image $IMAGE --wait
   ```
+  
+#### Hopefully, this gets you started! Enjoy Velero and thank you for your contribution!
