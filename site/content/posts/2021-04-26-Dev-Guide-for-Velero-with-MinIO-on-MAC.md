@@ -467,8 +467,6 @@ The Kubernetes cluster with name `dev-cluster` will be deleted.
   --backup-location-config region=$REGION  \
   --secret-file $SECRETFILE \
   --image $IMAGE --wait
-  ```
-  
-
+  ```  
 
 #### Hopefully, this gets you started! Enjoy Velero and thank you for your contribution!
